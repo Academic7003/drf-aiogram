@@ -378,7 +378,7 @@ async def navigate(call: CallbackQuery, callback_data: dict):
 @dp.message_handler(user_id=admin_id, state="*", commands=["statistika"])
 async def get_stat(message: types.Message, state: FSMContext):
     await state.finish()
-    await message.answer("yil?/year?/Год?")
+    await message.answer("yil? / year? / Год?")
     await Statistic.year.set()
 
 @dp.message_handler(user_id=admin_id, state=Statistic.year)
@@ -388,7 +388,7 @@ async def post_year(message: types.Message, state: FSMContext):
         await state.update_data(year=year)
     else:
         await Statistic.year.set()
-    await message.answer("oy?/month?/Месяц?")
+    await message.answer("oy? / month? / Месяц?")
     await Statistic.month.set()
 
 @dp.message_handler(user_id=admin_id, state=Statistic.month)
