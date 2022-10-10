@@ -1,0 +1,66 @@
+version: '3.7'
+
+services:
+  drf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: drf
+    restart: always
+    command: sh -c "gunicorn --bind 0.0.0.0:8000 DRF.wsgi:application"
+    volumes:
+      - .:/usr/src/app
+      - ./media:/usr/src/app/media
+      - ./static:/usr/src/app/static
+      - ./media_cdn:/usr/src/app/media_cdn
+      - ./static_cdn:/usr/src/app/static_cdn
+    ports:
+      - "8000:8000"
+    depends_on:
+       - db
+    env_file:
+       - .env
+
+  nginx:
+   build:
+     context: .
+     dockerfile: nginx/Dockerfile
+   volumes:
+      - ./media:/media
+      - ./static:/static
+      - ./media_cdn:/media_cdn
+      - ./static_cdn:/static_cdn
+   ports:
+     - "80:80" 
+   depends_on:
+     - drf
+  db:
+    image: postgres
+    container_name: db
+    # hostname:
+    ports:
+      - "5432:5432"
+    restart: always
+    env_file:
+     - .env
+    volumes:
+     - pgdbdata:/var/lib/postgresql/data/
+
+  bot:
+   build:
+     context: .
+     dockerfile: aiogram/Dockerfile
+   container_name: bot
+   command: python aiogram/app.py
+   depends_on:
+     - drf
+   volumes:
+     - .:/bot
+   env_file:
+     - .env
+
+
+
+
+volumes:
+  pgdbdata:

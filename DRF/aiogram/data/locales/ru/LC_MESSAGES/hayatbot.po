@@ -1,0 +1,95 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-09-08 11:48+0500\n"
+"PO-Revision-Date: 2022-09-08 11:49+0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: handlers/users/menu_handlers.py:78 handlers/users/menu_handlers.py:106
+#: handlers/users/menu_handlers.py:204
+msgid "Qanday xizmat ko'rsatishga fikr qoldirasiz?"
+msgstr "На какую обслуживание хотите оставить отзыв"
+
+
+#: handlers/users/menu_handlers.py:82
+msgid "choose lang"
+msgstr "Выберите язык"
+
+
+#: handlers/users/menu_handlers.py:97
+msgid "Telefon raqamingizni kiriting:"
+msgstr "Введите свой номер телефона:"
+
+
+#: handlers/users/menu_handlers.py:110 handlers/users/menu_handlers.py:113
+#: keyboards/ButtonKeyboards/direction.py:13
+msgid "Shifokor"
+msgstr "Доктор"
+
+
+#: handlers/users/menu_handlers.py:110 handlers/users/menu_handlers.py:115
+#: keyboards/ButtonKeyboards/direction.py:9
+msgid "Kassa"
+msgstr "Касса"
+
+
+#: handlers/users/menu_handlers.py:110 handlers/users/menu_handlers.py:117
+#: keyboards/ButtonKeyboards/direction.py:8
+msgid "Qabulxona"
+msgstr "🛎 Прием"
+
+
+#: handlers/users/menu_handlers.py:123
+msgid "{message_text}lar:"
+msgstr "{message_text}ы:"
+
+#: handlers/users/menu_handlers.py:129 handlers/users/menu_handlers.py:134
+msgid "Raiting qoldirish uchun user tanlang"
+msgstr "Выберите пользователя, чтобы оставить оценку"
+
+
+#: handlers/users/menu_handlers.py:144
+msgid "{full}ga raiting:"
+msgstr "Рейтинг {full}:"
+
+
+#: handlers/users/menu_handlers.py:158
+msgid "Ushbu Userga raiting qo'ygansiz!"
+msgstr "Вы оценили этого пользователя!"
+
+
+#: handlers/users/menu_handlers.py:162
+msgid ""
+"Raiting:{rating}. \n"
+"Rahmat"
+msgstr ""
+"Рейтинг:{rating}. \n"
+"Спасибо"
+
+#: handlers/users/menu_handlers.py:165
+msgid ""
+"O'zingizga raiting qo'ymasligingiz kerak!\n"
+" Raiting qabul qilinmadi!"
+msgstr ""
+"Вы не должны оценивать себя!\n"
+"Оценка не принята!"
+
+#: keyboards/ButtonKeyboards/contact.py:10
+msgid "Mening raqamim"
+msgstr "Мой номер"
+
+

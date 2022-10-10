@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="dc7cb820-df00-4290-9738-3de36209a032" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/DRF/DRF/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/DRF/DRF/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRF/aiogram/handlers/users/button_handlers.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRF/aiogram/handlers/users/menu_handlers.py" beforeDir="false" afterPath="$PROJECT_DIR$/DRF/aiogram/handlers/users/menu_handlers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRF/aiogram/utils/db_api/db_commands.py" beforeDir="false" afterPath="$PROJECT_DIR$/DRF/aiogram/utils/db_api/db_commands.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRF/comments/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/DRF/comments/api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRF/comments/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/DRF/comments/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DRF/comments/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/DRF/comments/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bott/bin/django-admin" beforeDir="false" afterPath="$PROJECT_DIR$/bott/bin/django-admin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bott/bin/pip" beforeDir="false" afterPath="$PROJECT_DIR$/bott/bin/pip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bott/bin/pip3" beforeDir="false" afterPath="$PROJECT_DIR$/bott/bin/pip3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bott/bin/pip3.10" beforeDir="false" afterPath="$PROJECT_DIR$/bott/bin/pip3.10" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bott/bin/sqlformat" beforeDir="false" afterPath="$PROJECT_DIR$/bott/bin/sqlformat" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Fbs9EekKfnLUqm8p8lYauWkyRC" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/home/nurmuhammad/ohaogaofg/EduOn",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dc7cb820-df00-4290-9738-3de36209a032" name="Changes" comment="" />
+      <created>1664771964210</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1664771964210</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
