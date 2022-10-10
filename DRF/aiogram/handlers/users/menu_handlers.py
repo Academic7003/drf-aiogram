@@ -1,3 +1,4 @@
+from ast import Await
 from datetime import datetime
 from email import message
 from typing import Union
@@ -8,7 +9,7 @@ from keyboards.inline.menu_keyboards import menu_cd, users_keyboard, ratings_key
 from loader import dp, _ , bot 
 from utils.db_api.db_commands import *
 from data import config
-from states.state import AddUser, Authentication, ToRating, SelectJob, MainMenu
+from states.state import AddUser, Authentication, ToRating, SelectJob, MainMenu, Statistic
 from aiogram.dispatcher import FSMContext
 from keyboards.ButtonKeyboards.langs import language_button
 from keyboards.ButtonKeyboards.contact import *
@@ -376,26 +377,60 @@ async def navigate(call: CallbackQuery, callback_data: dict):
 
 @dp.message_handler(user_id=admin_id, state="*", commands=["statistika"])
 async def get_stat(message: types.Message, state: FSMContext):
-    text = ''
     await state.finish()
-    last_mont = str(datetime.now().month -1 if datetime.now().month >0 else 12)
+    await message.answer("yil?/year?/Год?")
+    await Statistic.year.set()
+
+@dp.message_handler(user_id=admin_id, state=Statistic.year)
+async def post_year(message: types.Message, state: FSMContext):
+    year = message.text
+    if year.isdigit():
+        await state.update_data(year=year)
+    else:
+        await Statistic.year.set()
+    await message.answer("oy?/month?/Месяц?")
+    await Statistic.month.set()
+
+@dp.message_handler(user_id=admin_id, state=Statistic.month)
+async def post_month(message: types.Message, state: FSMContext):
+    month = message.text
+    if month.isdigit() and int(month) > 0 and int(month) < 13:
+        pass
+    else:
+        Statistic.month.set()
+    data = await state.get_data()
+    year = data.get("year")
+    text = ''
     users = await get_all_users()
     for k, i in enumerate(users):
-        arf = 0
+        one = 0
+        two = 0
+        three = 0
+        four = 0
+        five = 0
         sum_rating = 0
         count = 0
         name = i['full_name']
         user_given_rats = await get_user_given_raitings(int(i['user_id']))
         for j in user_given_rats:
-            print(type(j['date'].split('-')[1]))
-            if j['date'].split('-')[1]==last_mont:
+            if j['date'].split('-')[1]==month and j['date'].split('-')[0] == year:
+                if int(j['rating'])==1:
+                    one += 1
+                elif int(j['rating'])==2:
+                    two += 1
+                elif int(j['rating'])==3:
+                    three += 1
+                elif int(j['rating'])==4:
+                    four += 1
+                elif int(j['rating'])==5:
+                    five += 1
                 sum_rating += int(j['rating'])
                 count +=1
         if count == 0:
             arf = 0
         else:
             arf = round(sum_rating/count, 1)
-        text+=f'{k+1}) {name} {arf}\n'
+        text+=f'{k+1}) {name} 📊{arf} \n1😣-{one}\n2☹-{two}\n3😕-{three}\n4😑-{four}\n5😍-{five}\n------------\n'
     await message.answer(text)
 
 

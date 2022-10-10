@@ -18,3 +18,8 @@ class SelectJob(StatesGroup):
 
 class MainMenu(StatesGroup):
     to_menu = State()
+
+
+class Statistic(StatesGroup):
+    year = State()
+    month = State()
