@@ -34,7 +34,7 @@ async def get_users(direction):
     return a
 
 async def get_jobs(direction):
-    jobs = requests.get(basic+'get-jobs',data={"direction":direction}).json()
+    jobs = requests.get(basic+'get-jobs', data={"direction": direction}).json()
     return jobs
 
 async def get_user_sort_job(job):

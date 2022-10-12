@@ -23,3 +23,4 @@ class MainMenu(StatesGroup):
 class Statistic(StatesGroup):
     year = State()
     month = State()
+    # user = State()

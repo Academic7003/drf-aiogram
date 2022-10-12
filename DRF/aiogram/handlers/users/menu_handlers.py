@@ -16,7 +16,7 @@ from keyboards.ButtonKeyboards.contact import *
 from keyboards.ButtonKeyboards.direction import *
 from keyboards.ButtonKeyboards.jobs import jobs_button_maker
 from keyboards.ButtonKeyboards.main_menu import *
-
+from keyboards.ButtonKeyboards.all_user import *
 import os
 import requests
 
@@ -126,11 +126,11 @@ async def set_language(message: Message):
     user = await get_ratinger(user_id)
     print(message.text)
     if message.text == "🇷🇺 Русский":
-        await add_lang_to_user(user_id,'ru')
+        await add_lang_to_user(user_id, 'ru')
     elif message.text == "🇺🇿 O'zbek":
-        await add_lang_to_user(user_id,'uz')
+        await add_lang_to_user(user_id, 'uz')
     elif message.text == "🇬🇧 English":
-        await add_lang_to_user(user_id,'en')
+        await add_lang_to_user(user_id, 'en')
     user_lang = await get_user_lang(user_id)
     
     if user['phone_number']:
@@ -354,11 +354,11 @@ async def navigate(call: CallbackQuery, callback_data: dict):
     if current_level == '4':
         await call.message.delete()
         if usrln == 'uz':
-            await bot.send_message(chat_id = chat_id, text =_("Qanday xizmat ko'rsatishga fikr qoldirasiz?"), reply_markup=direction_button_uz)
+            await bot.send_message(chat_id=chat_id, text=_("Qanday xizmat ko'rsatishga fikr qoldirasiz?"), reply_markup=direction_button_uz)
         elif usrln == 'en':
-            await bot.send_message(chat_id = chat_id, text =_("What kind of service would you like to offer?"), reply_markup=direction_button_en)
+            await bot.send_message(chat_id=chat_id, text=_("What kind of service would you like to offer?"), reply_markup=direction_button_en)
         else:
-            await bot.send_message(chat_id = chat_id, text =_("На какую обслуживание хотите оставить отзыв"), reply_markup=direction_button_ru)
+            await bot.send_message(chat_id=chat_id, text=_("На какую обслуживание хотите оставить отзыв"), reply_markup=direction_button_ru)
         
 
         await ToRating.direction.set()
@@ -376,65 +376,92 @@ async def navigate(call: CallbackQuery, callback_data: dict):
         )
 
 @dp.message_handler(user_id=admin_id, state="*", commands=["statistika"])
-async def get_stat(message: types.Message, state: FSMContext):
+async def get_job( message: types.Message, state: FSMContext):
     await state.finish()
-    await message.answer("yil? / year? / Год?")
-    await Statistic.year.set()
+    markup = await choose_direction()
+    await message.answer("Qaysi yo'nalish ishchisi statistikasi kerak?", reply_markup=markup)
 
-@dp.message_handler(user_id=admin_id, state=Statistic.year)
-async def post_year(message: types.Message, state: FSMContext):
-    year = message.text
-    if not year.isdigit():
-        await message.answer("yil? / year? / Год?")
-        await Statistic.year.set()
-    else:
-        await state.update_data(year=year)
-        await message.answer("oy? / month? / Месяц?")
-        await Statistic.month.set()
 
-@dp.message_handler(user_id=admin_id, state=Statistic.month)
-async def post_month(message: types.Message, state: FSMContext):
-    month = message.text
-    if not (month.isdigit() and int(month) > 0 and int(month) < 13):
-        await message.answer("oy? / month? / Месяц?")
-        await Statistic.month.set()
-    else:
-        data = await state.get_data()
+async def post_user(callback: CallbackQuery, direction, **kwargs):
+    markup = await choose_job(direction)
+    await callback.message.edit_text("shulardan:", reply_markup=markup)
 
-        year = data.get("year")
+
+async def post_char(callback: CallbackQuery, direction, user_job, **kwargs):
+    markup = await choose_user(user_job)
+    await callback.message.edit_text("shulardan:", reply_markup=markup)
+
+
+async def post_year(callback: CallbackQuery, user_id, **kwargs):
+    markup = await choose_year(user_id)
+    await callback.message.edit_text("qaysi yil:", reply_markup=markup)
+
+
+async def post_month(callback: CallbackQuery, user_id, year, **kwargs):
+    markup = await choose_month(user_id, year)
+    await callback.message.edit_text("qaysi oy:", reply_markup=markup)
+
+async def make_stat(callback: CallbackQuery, user_id, year, month, **kwargs):
         text = ''
-        users = await get_all_users()
-        for k, i in enumerate(users):
-            one = 0
-            two = 0
-            three = 0
-            four = 0
-            five = 0
-            sum_rating = 0
-            count = 0
-            name = i['full_name']
-            user_given_rats = await get_user_given_raitings(int(i['user_id']))
-            for j in user_given_rats:
-                if j['date'].split('-')[1]==month and j['date'].split('-')[0] == year:
-                    if int(j['rating'])==1:
-                        one += 1
-                    elif int(j['rating'])==2:
-                        two += 1
-                    elif int(j['rating'])==3:
-                        three += 1
-                    elif int(j['rating'])==4:
-                        four += 1
-                    elif int(j['rating'])==5:
-                        five += 1
-                    sum_rating += int(j['rating'])
-                    count +=1
-            if count == 0:
-                arf = 0
-            else:
-                arf = round(sum_rating/count, 1)
-            text+=f'{k+1}) {name} 📊{arf} \n1😣-{one}\n2☹-{two}\n3😕-{three}\n4😑-{four}\n5😍-{five}\n------------\n'
-        await message.answer(text)
+        ratings = await get_user_given_raitings(user_id)
+        one = 0
+        two = 0
+        three = 0
+        four = 0
+        five = 0
+        sum_rating = 0
+        count = 0
+        name = await get_user(user_id)
+        for j in ratings:
+            if int(j['date'].split('-')[1]) == int(month) and int(j['date'].split('-')[0]) == int(year):
+                if int(j['rating']) == 1:
+                    one += 1
+                elif int(j['rating']) == 2:
+                    two += 1
+                elif int(j['rating']) == 3:
+                    three += 1
+                elif int(j['rating']) == 4:
+                    four += 1
+                elif int(j['rating']) == 5:
+                    five += 1
+                sum_rating += int(j['rating'])
+                count += 1
+        if count == 0:
+            arf = 0
+        else:
+            arf = round(sum_rating/count, 1)
+        text += f'{name["full_name"]} \n 📊{arf} \n1😣-{one}\n2☹-{two}\n3😕-{three}\n4😑-{four}\n5😍-{five}\n------------\n'
+        await callback.message.delete_reply_markup()
 
+        await callback.message.edit_text(text)
+
+
+@dp.callback_query_handler(stat_cd.filter())
+async def navigate_stat(call: CallbackQuery, callback_data: dict):
+    level = callback_data.get("level")
+    direction = callback_data.get("direction")
+    year = callback_data.get("year")
+    month = callback_data.get("month")
+    user_id = callback_data.get("user_id")
+    user_job = callback_data.get("user_job")
+    print(callback_data)
+    levels = {
+        "0": get_job,
+        "1": post_user,
+        "2": post_char,
+        "3": post_year,
+        "4": post_month,
+        "5": make_stat,
+    }
+    current_level_function = levels[level]
+    await current_level_function(
+        call,
+        direction=direction,
+        year=year,
+        month=month,
+        user_id=user_id,
+        user_job=user_job
+    )
 
 
 @dp.message_handler(user_id=admin_id, commands=["add_user"], state="*")
@@ -466,5 +493,4 @@ async def add_photo(message: types.Message, state: FSMContext):
 async def cancel(message: types.Message, state: FSMContext):
     await message.answer("cancelled")
     await state.reset_state()
-
 
