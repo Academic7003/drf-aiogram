@@ -2,8 +2,8 @@ import requests
 
 
 
-# basic = 'http://172.26.0.3:8000/'
-basic = 'http://127.0.0.1:8000/'
+basic = 'http://172.24.0.3:8000/'
+#basic = 'http://127.0.0.1:8000/'
 
 
 

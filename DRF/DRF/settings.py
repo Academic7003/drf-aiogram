@@ -12,7 +12,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
 
-# CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1:8000', "*"]
+CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1:8000', 'http://185.196.214.19']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -61,16 +61,16 @@ WSGI_APPLICATION = 'DRF.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('POSTGRES_DB'),
-#         'USER': config('POSTGRES_USER'),
-#         'PASSWORD': config('POSTGRES_PASSWORD'),
-#         'HOST': '172.18.0.4',
-#         'PORT': 5432,
-#     }
-# }
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': config('POSTGRES_DB'),
+         'USER': config('POSTGRES_USER'),
+         'PASSWORD': config('POSTGRES_PASSWORD'),
+         'HOST': '172.24.0.2',
+         'PORT': 5432,
+     }
+ }
 
 # DATABASES = {
 #     'default': {
@@ -79,12 +79,6 @@ WSGI_APPLICATION = 'DRF.wsgi.application'
 #     }d
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
