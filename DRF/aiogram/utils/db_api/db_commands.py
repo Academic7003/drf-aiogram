@@ -2,9 +2,7 @@ import requests
 
 
 
-basic = 'http://172.24.0.3:8000/'
-#basic = 'http://127.0.0.1:8000/'
-
+basic = 'http://drf:8000/'
 
 
 async def get_user(user_id):
@@ -43,8 +41,8 @@ async def get_user_sort_job(job):
     return sort_users
 
 
-async def get_user_given_raitings(user_id): #user olgan raitinglarni chiqaradi
-    return requests.get(basic+'get-user-given-ratings', params={'user_id':f'{user_id}'}).json()
+async def get_user_given_raitings(full_name): #user olgan raitinglarni chiqaradi
+    return requests.get(basic+'get-user-given-ratings', params={'full_name':f'{full_name}'}).json()
 
 
 async def get_user_img(user_id):

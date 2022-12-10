@@ -1,6 +1,3 @@
-from ast import Await
-from datetime import datetime
-from email import message
 from typing import Union
 from aiogram import types
 from aiogram.dispatcher.filters import Command, Text
@@ -380,30 +377,52 @@ async def get_job( message: types.Message, state: FSMContext):
     await state.finish()
     markup = await choose_direction()
     await message.answer("Qaysi yo'nalish ishchisi statistikasi kerak?", reply_markup=markup)
+    await Statistic.direction.set()
 
-
-async def post_user(callback: CallbackQuery, direction, **kwargs):
+@dp.message_handler(state=Statistic.direction)
+async def post_user(message: types.Message, state: FSMContext,):
+    direction = message.text
+    await state.update_data(direction=direction)
     markup = await choose_job(direction)
-    await callback.message.edit_text("shulardan:", reply_markup=markup)
+    await message.answer("shulardan:", reply_markup=markup)
+    await Statistic.job.set()
 
-
-async def post_char(callback: CallbackQuery, direction, user_job, **kwargs):
+@dp.message_handler(state=Statistic.job)
+async def post_char(message: types.Message, state: FSMContext,):
+    user_job = message.text
     markup = await choose_user(user_job)
-    await callback.message.edit_text("shulardan:", reply_markup=markup)
+    await message.answer("shulardan:", reply_markup=markup)
+    await Statistic.user.set()
 
+@dp.message_handler(state=Statistic.user)
+async def post_year(message: types.Message, state: FSMContext,):
+    full_name = message.text
+    markup = await choose_year(full_name)
+    await state.update_data(full_name=full_name)
+    await message.answer("qaysi yil:", reply_markup=markup)
+    await Statistic.month.set()
 
-async def post_year(callback: CallbackQuery, user_id, **kwargs):
-    markup = await choose_year(user_id)
-    await callback.message.edit_text("qaysi yil:", reply_markup=markup)
+@dp.message_handler(state=Statistic.month)
+async def post_month(message: types.Message, state: FSMContext,):
+    data = await state.get_data()
+    full_name = data.get("full_name")
+    await  state.update_data(year = message.text)
+    markup = await choose_month(full_name)
+    await message.answer("qaysi oy:", reply_markup=markup)
+    await Statistic.final.set()
 
+@dp.message_handler(state=Statistic.final)
+async def make_stat(message: types.Message, state: FSMContext,):
+        for j, i in mnths.items():
+            if i == message.text:
+                month = j
+                break
 
-async def post_month(callback: CallbackQuery, user_id, year, **kwargs):
-    markup = await choose_month(user_id, year)
-    await callback.message.edit_text("qaysi oy:", reply_markup=markup)
-
-async def make_stat(callback: CallbackQuery, user_id, year, month, **kwargs):
+        data = await state.get_data()
+        full_name = data.get("full_name")
+        year = data.get('year')
         text = ''
-        ratings = await get_user_given_raitings(user_id)
+        ratings = await get_user_given_raitings(full_name)
         one = 0
         two = 0
         three = 0
@@ -411,7 +430,6 @@ async def make_stat(callback: CallbackQuery, user_id, year, month, **kwargs):
         five = 0
         sum_rating = 0
         count = 0
-        name = await get_user(user_id)
         for j in ratings:
             if int(j['date'].split('-')[1]) == int(month) and int(j['date'].split('-')[0]) == int(year):
                 if int(j['rating']) == 1:
@@ -430,38 +448,37 @@ async def make_stat(callback: CallbackQuery, user_id, year, month, **kwargs):
             arf = 0
         else:
             arf = round(sum_rating/count, 1)
-        text += f'{name["full_name"]} \n 📊{arf} \n1😣-{one}\n2☹-{two}\n3😕-{three}\n4😑-{four}\n5😍-{five}\n------------\n'
-        await callback.message.delete_reply_markup()
+        text += f'{full_name} \n 📊{arf} \n1😣-{one}\n2☹-{two}\n3😕-{three}\n4😑-{four}\n5😍-{five}\n------------\n'
+        await message.answer(text)
 
-        await callback.message.edit_text(text)
+        await state.finish()
 
-
-@dp.callback_query_handler(stat_cd.filter())
-async def navigate_stat(call: CallbackQuery, callback_data: dict):
-    level = callback_data.get("level")
-    direction = callback_data.get("direction")
-    year = callback_data.get("year")
-    month = callback_data.get("month")
-    user_id = callback_data.get("user_id")
-    user_job = callback_data.get("user_job")
-    print(callback_data)
-    levels = {
-        "0": get_job,
-        "1": post_user,
-        "2": post_char,
-        "3": post_year,
-        "4": post_month,
-        "5": make_stat,
-    }
-    current_level_function = levels[level]
-    await current_level_function(
-        call,
-        direction=direction,
-        year=year,
-        month=month,
-        user_id=user_id,
-        user_job=user_job
-    )
+# @dp.callback_query_handler(stat_cd.filter())
+# async def navigate_stat(call: CallbackQuery, callback_data: dict):
+#     level = callback_data.get("level")
+#     direction = callback_data.get("direction")
+#     year = callback_data.get("year")
+#     month = callback_data.get("month")
+#     user_id = callback_data.get("user_id")
+#     user_job = callback_data.get("user_job")
+#     print(callback_data)
+#     levels = {
+#         "0": get_job,
+#         "1": post_user,
+#         "2": post_char,
+#         "3": post_year,
+#         "4": post_month,
+#         "5": make_stat,
+#     }
+#     current_level_function = levels[level]
+#     await current_level_function(
+#         call,
+#         direction=direction,
+#         year=year,
+#         month=month,
+#         user_id=user_id,
+#         user_job=user_job
+#     )
 
 
 @dp.message_handler(user_id=admin_id, commands=["add_user"], state="*")

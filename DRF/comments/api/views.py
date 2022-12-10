@@ -42,7 +42,8 @@ def get_user(request):
 
 @api_view(['GET'])
 def get_user_given_ratings(request):
-    whos_rating = request.GET.get('user_id')
+    whos_rating = request.GET.get('full_name')
+    whos_rating = UserModel.objects.filter(full_name=whos_rating).first().id
     ratings = RatingModel.objects.filter(whos_rating=whos_rating)
     serializer = RatingSerializer(ratings, many=True)
     return Response(serializer.data)

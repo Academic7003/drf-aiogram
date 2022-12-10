@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: drf
     restart: always
-    command: sh -c "gunicorn --bind 0.0.0.0:8000 DRF.wsgi:application"
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/usr/src/app
       - ./media:/usr/src/app/media
@@ -21,19 +21,19 @@ services:
     env_file:
        - .env
 
-  nginx:
-   build:
-     context: .
-     dockerfile: nginx/Dockerfile
-   volumes:
-      - ./media:/media
-      - ./static:/static
-      - ./media_cdn:/media_cdn
-      - ./static_cdn:/static_cdn
-   ports:
-     - "80:80" 
-   depends_on:
-     - drf
+#  nginx:
+#   build:
+#     context: .
+#     dockerfile: nginx/Dockerfile
+#   volumes:
+#      - ./media:/media
+#      - ./static:/static
+#      - ./media_cdn:/media_cdn
+#      - ./static_cdn:/static_cdn
+#   ports:
+#     - "80:80"
+#   depends_on:
+#     - drf
   db:
     image: postgres
     container_name: db
