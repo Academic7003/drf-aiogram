@@ -390,6 +390,7 @@ async def post_user(message: types.Message, state: FSMContext,):
 @dp.message_handler(state=Statistic.job)
 async def post_char(message: types.Message, state: FSMContext,):
     user_job = message.text
+
     markup = await choose_user(user_job)
     await message.answer("shulardan:", reply_markup=markup)
     await Statistic.user.set()
@@ -397,10 +398,21 @@ async def post_char(message: types.Message, state: FSMContext,):
 @dp.message_handler(state=Statistic.user)
 async def post_year(message: types.Message, state: FSMContext,):
     full_name = message.text
-    markup = await choose_year(full_name)
-    await state.update_data(full_name=full_name)
-    await message.answer("qaysi yil:", reply_markup=markup)
-    await Statistic.month.set()
+    a = await get_user_given_raitings(full_name)
+    print(len(a))
+    if len(a) == 0:
+        A = message.message_id
+        print(message.text)
+        B = message.chat.id
+        print(str(A), "-" * 10)
+        await bot.delete_message(chat_id=B, message_id=A - 1)
+        await message.answer(text="ushbu user raitingga ega emas")
+        await state.finish()
+    else:
+        markup = await choose_year(full_name)
+        await state.update_data(full_name=full_name)
+        await message.answer("qaysi yil:", reply_markup=markup)
+        await Statistic.month.set()
 
 @dp.message_handler(state=Statistic.month)
 async def post_month(message: types.Message, state: FSMContext,):
@@ -450,6 +462,11 @@ async def make_stat(message: types.Message, state: FSMContext,):
             arf = round(sum_rating/count, 1)
         text += f'{full_name} \n 📊{arf} \n1😣-{one}\n2☹-{two}\n3😕-{three}\n4😑-{four}\n5😍-{five}\n------------\n'
         await message.answer(text)
+        A = message.message_id
+        print(message.text)
+        B = message.chat.id
+        print(str(A), "-" * 10)
+        await bot.delete_message(chat_id=B, message_id=A - 1)
 
         await state.finish()
 
