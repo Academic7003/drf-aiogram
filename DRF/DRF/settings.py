@@ -61,23 +61,23 @@ WSGI_APPLICATION = 'DRF.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#      'default': {
-#          'ENGINE': 'django.db.backends.postgresql',
-#          'NAME': config('POSTGRES_DB'),
-#          'USER': config('POSTGRES_USER'),
-#          'PASSWORD': config('POSTGRES_PASSWORD'),
-#          'HOST': '172.24.0.2',
-#          'PORT': 5432,
-#      }
-#  }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': config('POSTGRES_DB'),
+         'USER': config('POSTGRES_USER'),
+         'PASSWORD': config('POSTGRES_PASSWORD'),
+         'HOST': 'db',
+         'PORT': 5432,
+     }
+ }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
