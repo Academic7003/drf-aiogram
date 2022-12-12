@@ -50,7 +50,7 @@ async def choose_job(direction):
             keyboard.append(chunk)
             chunk = []
             chunk.append(KeyboardButton(text=f"{i['name']}"))
-    if len(chunk) == 1:
+    if len(chunk):
         keyboard.append(chunk)
     markup = ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
 
@@ -69,7 +69,7 @@ async def choose_user(user_job):
             chunk = []
             chunk.append(KeyboardButton(text=f"{i['full_name']}"))
         print(chunk)
-    if len(chunk) == 1:
+    if len(chunk):
         keyboard.append(chunk)
     print(keyboard)
     markup = ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
@@ -94,7 +94,7 @@ async def choose_year(full_name):
             keyboard.append(chunk)
             chunk = []
             chunk.append(KeyboardButton(text=f"{i}"))
-    if len(chunk) == 1:
+    if len(chunk):
         keyboard.append(chunk)
     markup = ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
     return markup
@@ -117,7 +117,7 @@ async def choose_month(full_name):
             keyboard.append(chunk)
             chunk = []
             chunk.append(KeyboardButton(text=f"{mnths[int(i)]}"))
-    if len(chunk) == 1:
+    if len(chunk):
         keyboard.append(chunk)
     markup = ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
     return markup
