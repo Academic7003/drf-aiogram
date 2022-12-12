@@ -68,8 +68,10 @@ async def choose_user(user_job):
             keyboard.append(chunk)
             chunk = []
             chunk.append(KeyboardButton(text=f"{i['full_name']}"))
+        print(chunk)
     if len(chunk) == 1:
         keyboard.append(chunk)
+    print(keyboard)
     markup = ReplyKeyboardMarkup(keyboard=keyboard, resize_keyboard=True)
 
     return markup
