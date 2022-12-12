@@ -384,7 +384,7 @@ async def post_user(message: types.Message, state: FSMContext,):
     direction = message.text
     await state.update_data(direction=direction)
     markup = await choose_job(direction)
-    await message.answer("shulardan:", reply_markup=markup)
+    await message.answer("yo'nalishdan:", reply_markup=markup)
     await Statistic.job.set()
 
 @dp.message_handler(state=Statistic.job)
@@ -392,7 +392,7 @@ async def post_char(message: types.Message, state: FSMContext,):
     user_job = message.text
 
     markup = await choose_user(user_job)
-    await message.answer("shulardan:", reply_markup=markup)
+    await message.answer("Hodimlardan:", reply_markup=markup)
     await Statistic.user.set()
 
 @dp.message_handler(state=Statistic.user)
